@@ -2,6 +2,7 @@ use crate::android::constants::{PASSWORD_CHARS, SYMBOL_MAP};
 use pkcs12::kdf::{Pkcs12KeyType, derive_key_utf8};
 use sha1::Sha1;
 
+/// Gernates a salt for Password-Based Encryption (PBE), used to derive a key
 pub fn generate_salt(user_id: u64, enc_type: usize) -> [u8; 16] {
     let salt_base_str = SYMBOL_MAP
         .get(enc_type)
@@ -17,6 +18,7 @@ pub fn generate_salt(user_id: u64, enc_type: usize) -> [u8; 16] {
     salt
 }
 
+/// Derives a 256-bit key using the user_id and encryption type
 pub fn derive_key(user_id: u64, enc_type: usize) -> [u8; 32] {
     let salt = generate_salt(user_id, enc_type);
     let password_str = std::str::from_utf8(&PASSWORD_CHARS).unwrap();

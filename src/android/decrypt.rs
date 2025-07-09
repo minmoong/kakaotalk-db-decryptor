@@ -5,6 +5,15 @@ use base64::{Engine as _, engine::general_purpose};
 
 pub type Aes256CbcDec = cbc::Decryptor<aes::Aes256>;
 
+/// Decrypts the given Base64-encoded encrypted string using the specified user_id and enc_type
+///
+/// # Parameters
+/// - `encrypted`: A Base64-encoded string representing the encrypted data.
+/// - `user_id`: The user ID retrieved from each data.
+/// - `enc_type`: Encryption type retrieved from `enc` field inside the data's `v` object.
+///
+/// # Returns
+/// Returns the decrypted plaintext as a `String`.
 pub fn decrypt(encrypted: &str, user_id: u64, enc_type: usize) -> String {
     if encrypted.contains(char::is_whitespace) || encrypted == "{}" || encrypted == "[]" {
         return encrypted.to_string();
